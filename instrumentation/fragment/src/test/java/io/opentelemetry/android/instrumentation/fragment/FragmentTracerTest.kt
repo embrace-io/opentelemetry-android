@@ -47,7 +47,7 @@ internal class FragmentTracerTest {
                 .build()
         trackableTracer.startFragmentCreation()
         trackableTracer.endActiveSpan()
-        val span = this.singleSpan
+        val span = singleSpan
         assertEquals("Created", span.name)
     }
 
@@ -64,7 +64,7 @@ internal class FragmentTracerTest {
         trackableTracer.addPreviousScreenAttribute()
         trackableTracer.endActiveSpan()
 
-        val span = this.singleSpan
+        val span = singleSpan
         assertNull(span.attributes.get(RumConstants.LAST_SCREEN_NAME_KEY))
     }
 
@@ -85,7 +85,7 @@ internal class FragmentTracerTest {
         trackableTracer.addPreviousScreenAttribute()
         trackableTracer.endActiveSpan()
 
-        val span = this.singleSpan
+        val span = singleSpan
         assertNull(span.attributes.get(RumConstants.LAST_SCREEN_NAME_KEY))
     }
 
@@ -109,7 +109,7 @@ internal class FragmentTracerTest {
         fragmentTracer.addPreviousScreenAttribute()
         fragmentTracer.endActiveSpan()
 
-        val span = this.singleSpan
+        val span = singleSpan
         assertEquals(
             "previousScreen",
             span.attributes.get(RumConstants.LAST_SCREEN_NAME_KEY),

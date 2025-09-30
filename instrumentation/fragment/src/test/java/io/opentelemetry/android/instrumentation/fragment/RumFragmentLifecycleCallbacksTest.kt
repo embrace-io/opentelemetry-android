@@ -16,6 +16,7 @@ import io.opentelemetry.sdk.testing.junit5.OpenTelemetryExtension
 import io.opentelemetry.sdk.trace.data.EventData
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -49,8 +50,10 @@ internal class RumFragmentLifecycleCallbacksTest {
 
     @Test
     fun fragmentCreation() {
+        val testHarness = fragmentCallbackTestHarness
+
         val fragment = Mockito.mock(Fragment::class.java)
-        fragmentCallbackTestHarness.runFragmentCreationLifecycle(fragment)
+        testHarness.runFragmentCreationLifecycle(fragment)
 
         val spans = otelTesting.spans
         assertEquals(1, spans.size)
@@ -250,7 +253,7 @@ internal class RumFragmentLifecycleCallbacksTest {
         val detachSpan = spans[3]
 
         assertEquals("Destroyed", detachSpan.name)
-        Assertions.assertNotNull(
+        assertNotNull(
             detachSpan.attributes.get(FragmentTracer.FRAGMENT_NAME_KEY),
         )
         assertNull(detachSpan.attributes.get(RumConstants.LAST_SCREEN_NAME_KEY))
