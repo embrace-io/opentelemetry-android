@@ -6,6 +6,7 @@
 package io.opentelemetry.android.agent.dsl
 
 import io.opentelemetry.android.Incubating
+import io.opentelemetry.android.OtelAndroidClock
 import io.opentelemetry.android.agent.dsl.instrumentation.InstrumentationConfiguration
 import io.opentelemetry.android.config.OtelRumConfig
 import io.opentelemetry.android.features.diskbuffering.DiskBufferingConfig
@@ -20,6 +21,10 @@ import io.opentelemetry.sdk.resources.ResourceBuilder
 @OpenTelemetryDslMarker
 class OpenTelemetryConfiguration internal constructor(
     internal val rumConfig: OtelRumConfig = OtelRumConfig(),
+    /**
+     * Configures the [Clock] used for capturing telemetry.
+     */
+    var clock: Clock = OtelAndroidClock(),
 ) {
     internal val exportConfig = HttpExportConfiguration()
     internal val sessionConfig = SessionConfiguration()
@@ -30,11 +35,6 @@ class OpenTelemetryConfiguration internal constructor(
     init {
         diskBuffering {}
     }
-
-    /**
-     * Configures the [Clock] used for capturing telemetry. Defaults to [Clock.getDefault].
-     */
-    var clock: Clock = Clock.getDefault()
 
     /**
      * Configures how OpenTelemetry should export telemetry over HTTP.
